@@ -4,6 +4,7 @@ import edu.example.springbootblog.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,9 +14,9 @@ public class UserDetailService implements UserDetailsService { //스프링 시�
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email)  {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // email을 기준으로 사용자 정보를 조회하여 반환
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException(email)); //메서드나 생성자가 예상하지 못한 인자를 받았을 때 발생하는 예외
+                .orElseThrow(() -> new UsernameNotFoundException("User not fount what " + email)); //메서드나 생성자가 예상하지 못한 인자를 받았을 때 발생하는 예외
     }
 }
