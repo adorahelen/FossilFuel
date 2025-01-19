@@ -30,6 +30,17 @@ public class Oauth2UserCustomService extends DefaultOAuth2UserService {
         byte[] profileImageBytes = null;
         String profileUrl = null;
 
+
+//        try {
+//            // 기본 프로필 이미지 설정 (현재는 Oauth2 에서 못 받아오거나, 받아와도 저장하는 부분 누락됨
+//            File defaultImage = new File("src/main/resources/static/img/default.jpeg"); // aws 에서 경로 못찾음
+//            profileImageBytes = Files.readAllBytes(defaultImage.toPath());
+//            profileUrl = "default.jpeg";  // 기본 이미지의 URL 고정
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            throw new RuntimeException("Failed to load the default profile image", e);
+//        }
+
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
         String email;
