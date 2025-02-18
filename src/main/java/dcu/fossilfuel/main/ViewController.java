@@ -25,4 +25,11 @@ public class ViewController {
     public String mains3() {
         return "main/github3";
     } // 그냥 커밋 리스트 (히스토리)
+
+    @GetMapping("/main4")
+    public String gQlg() {
+        return "main/github4";
+    } // 그냥 커밋 리스트 (히스토리)
+
+
 }

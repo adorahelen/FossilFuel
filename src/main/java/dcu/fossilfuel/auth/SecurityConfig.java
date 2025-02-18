@@ -32,9 +32,10 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable());
         http.httpBasic(httpBasic -> httpBasic.disable());
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/", "/signup", "/chatbot", "/api/**", "/error", "/login", "/login/**", "/main","/api/commits",
-                        "/main2", "/main1", "/main3").permitAll()
-                .anyRequest().authenticated()
+//                .requestMatchers("/", "/signup", "/chatbot", "/api/**", "/error", "/login", "/login/**", "/main","/api/commits",
+//                        "/main2", "/main1", "/main3", "/gQlf","/graphql/**").permitAll() // graphql 경로 허용
+//
+                .anyRequest().permitAll()
         );
 
         // ✅ form Login 사용시, 전부 스프링 시큐리티 위임 => Login controller (x)
@@ -55,7 +56,6 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
         );
-//1
 
         http.sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
