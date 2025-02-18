@@ -18,6 +18,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'com.h2database:h2'  // H2 데이터베이스 추가
 
     implementation 'org.kohsuke:github-api:1.301' // GitHub API 라이브러리
 

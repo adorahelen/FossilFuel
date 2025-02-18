@@ -11,8 +11,7 @@ import java.util.List;
 @Service
 public class GithubApiService {
 
-//    github:
-//    token: "your_github_personal_access_token"
+
 
     private final GitHub github;
 
