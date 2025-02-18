@@ -1,6 +1,8 @@
 package dcu.fossilfuel.user.controller;
 
+import dcu.fossilfuel.user.controller.dto.EmailCheckRequest;
 import dcu.fossilfuel.user.controller.dto.RegisterRequest;
+import dcu.fossilfuel.user.controller.dto.ResponseDto;
 import dcu.fossilfuel.user.service.MailService;
 import dcu.fossilfuel.user.service.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -23,15 +25,15 @@ public class MemberController {
 
     // 인증 코드 전송
     @PostMapping("/api/send-verification-code")
-    public ResponseEntity<Map<String, Object>> sendVerificationCode(HttpSession session, @RequestBody Map<String, String> request) throws Exception {
-        String email = request.get("email");
-        String verificationCode = registerMail.sendSimpleMessage(email);
+    public ResponseEntity<ResponseDto> sendVerificationCode(HttpSession session, @RequestBody EmailCheckRequest request) throws Exception {
+//        String email = request.get("email");
+        String verificationCode = registerMail.sendSimpleMessage(request.getEmail());
         session.setAttribute("verificationCode", verificationCode);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", true);
-        response.put("message", "인증 코드가 이메일로 발송되었습니다.");
-        return ResponseEntity.ok(response);
+//        Map<String, Object> response = new HashMap<>();
+//        response.put("success", true);
+//        response.put("message", "인증 코드가 이메일로 발송되었습니다.");
+        return ResponseEntity.ok(ResponseDto.success("인증 코드가 이메일로 발송되었습니다.", null));
     }
 
     // 인증 코드 확인
