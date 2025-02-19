@@ -8,13 +8,13 @@ public class ViewController {
 
     @GetMapping("/main")
     public String mains() {
-        return "main/github";
-    } // 404
+        return "main/forSmartPhone";
+    } // 베이스
 
     @GetMapping("/main1")
     public String mains1() {
-        return "main/github1";
-    } // 검은 잔디 (오와열 조금 깨짐)
+        return "main/dash02";
+    } // 완성본
 
     @GetMapping("/main2")
     public String mains2() {

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반응형 대시보드 + GitHub 기여도</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            font-size: 1.5rem;
+        }
+        .container {
+            width: 90%;
+            margin: auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .dashboard {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 320px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            max-width: 100%;
+        }
+        .list {
+            list-style: none;
+            padding: 0;
+        }
+        .list li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1rem;
+        }
+        .contributions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            margin-top: 10px;
+        }
+        .contribution-day {
+            width: 15px;
+            height: 15px;
+            background-color: #ccc;
+        }
+        .active {
+            background-color: #2cbe4e;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>반응형 대시보드 + GitHub 기여도</h1>
+</header>
+
+<div class="container">
+    <div class="dashboard">
+        <div class="card">
+            <h2>🔍 GitHub 기여도 조회</h2>
+            <label for="username">GitHub 아이디:</label>
+            <input type="text" id="username" placeholder="GitHub ID 입력">
+            <button onclick="fetchContributions()">기여도 조회</button>
+            <div id="result" class="contributions"></div>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <div class="card">
+            <h2>🏆 커밋 랭킹</h2>
+            <ul class="list rank-list"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fetchContributions() {
+        const username = document.getElementById("username").value;
+        if (!username) {
+            alert("GitHub 아이디를 입력해주세요.");
+            return;
+        }
+
+        fetch(`/graphql/user/${username}`)
+            .then(response => response.json())
+            .then(data => {
+                displayContributions(data);
+                saveCommitData(username, data);
+            })
+            .catch(error => {
+                console.error('Error fetching contributions:', error);
+                alert('기여도 데이터를 불러오지 못했습니다.');
+            });
+    }
+
+    function displayContributions(data) {
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = '';
+        const weeks = data.data.user.contributionsCollection.contributionCalendar.weeks;
+
+        weeks.forEach(week => {
+            week.contributionDays.forEach(day => {
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('contribution-day');
+                if (day.contributionCount > 0) {
+                    dayDiv.classList.add('active');
+                }
+                resultDiv.appendChild(dayDiv);
+            });
+        });
+    }
+
+    function saveCommitData(username, data) {
+        let commitCount = 0;
+        data.data.user.contributionsCollection.contributionCalendar.weeks.forEach(week => {
+            week.contributionDays.forEach(day => {
+                commitCount += day.contributionCount;
+            });
+        });
+
+        const commitDTO = { username: username, commitCount: commitCount };
+
+        fetch('/api/commits/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(commitDTO)
+        }).then(() => updateRanking());
+    }
+
+    function updateRanking() {
+        fetch('/api/commits/ranking')
+            .then(response => response.json())
+            .then(data => {
+                const rankList = document.querySelector(".rank-list");
+                rankList.innerHTML = '';
+
+                data.forEach((user, index) => {
+                    const newRank = document.createElement("li");
+                    newRank.innerHTML = `<span>${index + 1}. ${user.username}</span><span>${user.commitCount} commits</span>`;
+                    rankList.appendChild(newRank);
+                });
+            })
+            .catch(error => console.error('Error fetching ranking:', error));
+    }
+
+    window.onload = updateRanking;
+</script>
+</body>
+</html>
