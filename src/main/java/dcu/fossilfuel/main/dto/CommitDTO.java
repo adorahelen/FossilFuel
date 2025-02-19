@@ -1,4 +1,4 @@
-package dcu.fossilfuel.main;
+package dcu.fossilfuel.main.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
