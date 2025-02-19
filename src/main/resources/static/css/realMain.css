@@ -1,0 +1,159 @@
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 전체 페이지 스타일 */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 화면 높이를 모두 사용 */
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #6b7b8c;
+    color: white;
+    padding: 1rem;
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
+}
+
+/* GitHub 및 PDF 대시보드 스타일 */
+.github {
+    width: 100%;
+    max-width: 1200px; /* 최대 크기 설정 */
+    padding: 20px;
+    display: flex;
+    flex-direction: column; /* 세로로 배치 */
+    gap: 20px; /* 박스 간의 간격 */
+    box-sizing: border-box;
+    align-items: center; /* 가운데 정렬 */
+}
+
+/* 각 카드 스타일 */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+    width: 100%;
+    max-width: 800px; /* 카드의 최대 크기 설정 */
+    text-align: center;
+}
+
+/* GitHub 전적 검색과 커밋 랭킹을 세로로 배치 */
+.dashboard222, .git, .pdf-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 800px; /* 최대 크기 설정 */
+    flex: 1 1 300px; /* 세 박스가 동일한 크기로 나누어짐 */
+}
+
+/* 커밋 랭킹 리스트 스타일 */
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.list li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+}
+
+/* 기여도 데이터 스타일 */
+.contribution-day {
+    width: 15px;
+    height: 15px;
+    background-color: #bcd9c8; /* 파스텔 민트 */
+}
+
+.contribution-day.active {
+    background-color: #86a873; /* 저채도 올리브 그린 */
+}
+
+.contributions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin-top: 10px;
+}
+
+/* 프로필 이미지 스타일 */
+.main-profile {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+/* PDF 뷰어 영역 스타일 */
+.pdf-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex: 1; /* 세 박스가 동일하게 크기를 나눠갖도록 설정 */
+}
+
+/* PDF 캔버스 스타일 */
+canvas {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+/* 버튼 스타일 */
+button {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    background-color: #6b7b8c;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+/* 버튼 hover 스타일 */
+button:hover {
+    background-color: #56738a;
+}
+
+/* 페이지 전환 컨트롤 스타일 */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* 반응형 디자인을 위한 미디어 쿼리 */
+@media (max-width: 768px) {
+    .github {
+        flex-direction: column; /* 모바일에서는 세로로 배치 */
+    }
+
+    .dashboard222, .git, .pdf-container {
+        flex: 1 1 300px; /* 각 박스가 균등한 크기를 가지도록 설정 */
+        max-width: 100%; /* 최대 크기 설정 */
+    }
+
+    .card {
+        max-width: 100%; /* 모바일에서 카드 크기 자동 조정 */
+    }
+}
