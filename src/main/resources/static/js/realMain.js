@@ -76,7 +76,7 @@
 
     // [ 로그아웃 ]
     document.getElementById("logout-btn").addEventListener("click", function () {
-        fetch("/api/auth/logout", {
+        fetch("https://fossilfuel.site/api/auth/logout", {
             method: "POST",
             credentials: "include", // 쿠키 기반 인증 시 필요
             headers: { "Content-Type": "application/json" }
