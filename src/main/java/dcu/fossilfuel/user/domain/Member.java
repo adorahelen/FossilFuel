@@ -74,15 +74,6 @@ public class Member implements UserDetails {
         return this;
     }
 
-    @Transactional
-    public Member updatePW(String password) {
-        if (password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("비밀번호는 비어 있을 수 없습니다.");
-        }
-        this.password = password;
-        return this;
-    }
-
     // Spring Security (Not default Options)✅ 사용자 역할을 `GrantedAuthority` 형태로 반환
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -112,5 +103,12 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setPassword(String password) {
+        if (password == null || password.isEmpty()) {
+            throw new IllegalArgumentException("비밀번호는 비어 있을 수 없습니다.");
+        }
+        this.password = password;
     }
 }

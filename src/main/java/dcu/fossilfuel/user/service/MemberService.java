@@ -4,6 +4,7 @@ import dcu.fossilfuel.user.controller.dto.RegisterRequest;
 import dcu.fossilfuel.user.domain.Member;
 import dcu.fossilfuel.user.domain.Role;
 import dcu.fossilfuel.user.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,19 @@ public class MemberService {
         return memberRepository.findByNickname(nickname)
                 .map(Member::getEmail) // 이메일 가져오기
                 .orElse(null);
+    }
+
+    // 추가
+    // 비밀번호 찾기
+    // 이메일 존재 여부 확인 (가존 코드 재활용)
+    @Transactional // @Transactional을 추가하면 save() 호출 없이도 JPA가 자동으로 DB 반영!
+    public void updatePassword(String email, String newPassword) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        member.setPassword(passwordEncoder.encode(newPassword)); // 비밀번호 암호화 후 저장
     }
 
 

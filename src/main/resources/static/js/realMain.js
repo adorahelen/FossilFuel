@@ -120,18 +120,6 @@
 }
 }
 
-    function zoomIn() {
-    scale += 0.2;
-    renderPage(currentPage);
-}
-
-    function zoomOut() {
-    if (scale > 0.6) {
-    scale -= 0.2;
-    renderPage(currentPage);
-}
-}
-
     window.onload = function () {
     updateRanking();
     loadPDF();
