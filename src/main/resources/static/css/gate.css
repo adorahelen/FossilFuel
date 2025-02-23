@@ -5,7 +5,15 @@ body {
     margin: 0;
     padding: 0;
 }
-
+.main-profile {
+    width: 150px;  /* 적절한 크기로 조정 */
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+h1, h2, h3 { /* 적절한 볼드체 조정 */
+    font-weight: bold;
+}
 /* 첫 번째 컨테이너 (타이틀 섹션) */
 .title-section {
     background-color: #bfdbfe;
@@ -73,13 +81,6 @@ body {
     padding: 50px 20px;
 }
 
-.member-section img.main-profile {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-}
-
 /* 멤버 사진 가로 스크롤 */
 .member-container {
     overflow-x: auto;
@@ -88,10 +89,10 @@ body {
 }
 
 .member-container img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 10px;
+    width: 80px;        /* 너비 */
+    height: 80px;       /* 높이 */
+    object-fit: cover;  /* 이미지 크기에 맞게 잘라서 채우기 */
+    border-radius: 50%; /* 동그라미로 만들기 */
     margin: 0 10px;
 }
 
@@ -102,17 +103,19 @@ body {
     padding: 50px 20px;
 }
 
+/* 추억 사진 가로 스크롤 */
 .memories-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 20px 0;
 }
 
 .memories-container img {
-    width: 200px;
-    height: 150px;
+    width: 160px;
+    height: 160px;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 20px;
+    margin: 0 10px;
 }
 
 /* 네 번째 컨테이너 (방명록) */
