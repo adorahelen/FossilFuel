@@ -72,6 +72,29 @@
 
     window.onload = updateRanking;
 
+// 여기까지 깃허브
+
+    // [ 로그아웃 ]
+    document.getElementById("logout-btn").addEventListener("click", function () {
+        fetch("/api/auth/logout", {
+            method: "POST",
+            credentials: "include", // 쿠키 기반 인증 시 필요
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("로그아웃되었습니다.");
+                    window.location.href = "/"; // 로그인 페이지로 리디렉션
+                } else {
+                    alert("로그아웃 실패. 다시 시도해주세요.");
+                }
+            })
+            .catch(error => console.error("로그아웃 중 오류 발생:", error));
+    });
+
+
+// 여기서부터  PDF(자소서)
+
     // 📌 PDF.js 설정
     const url = '/kangmin.pdf';
     let pdfDoc = null;

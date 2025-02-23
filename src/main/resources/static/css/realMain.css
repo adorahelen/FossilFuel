@@ -25,6 +25,46 @@ header {
     font-size: 1.5rem;
     width: 100%;
     text-align: center;
+    display: flex;
+    flex-direction: column; /* 요소들을 세로로 정렬 */
+    align-items: center; /* 가운데 정렬 */
+    gap: 10px; /* 프로필 이미지와 버튼 사이 간격 */
+}
+
+/* 로그아웃 버튼 스타일 */
+.logout-button {
+    padding: 10px 15px;
+    background-color: #ff5c5c; /* 부드러운 레드 색상 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* 로그아웃 버튼 hover 효과 */
+.logout-button:hover {
+    background-color: #e04747; /* 조금 더 어두운 레드 */
+    transform: scale(1.05); /* 약간 확대 효과 */
+}
+
+/* 로그아웃 버튼 클릭 효과 */
+.logout-button:active {
+    background-color: #cc3c3c;
+    transform: scale(0.95);
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #6b7b8c;
+    color: white;
+    padding: 1rem;
+    font-size: 1.5rem;
+    width: 100%;
+    text-align: center;
 }
 
 /* GitHub 및 PDF 대시보드 스타일 */
