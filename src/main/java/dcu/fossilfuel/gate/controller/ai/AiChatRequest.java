@@ -1,5 +1,6 @@
 package dcu.fossilfuel.gate.controller.ai;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class AiChatRequest {
 
+    @NotBlank(message = "Cant not NULL - K")
     private String message;
 
 }

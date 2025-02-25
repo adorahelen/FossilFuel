@@ -3,6 +3,7 @@ package dcu.fossilfuel.gate.controller;
 
 import dcu.fossilfuel.gate.domain.Guestbook;
 import dcu.fossilfuel.gate.service.GuestbookService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public class GuestbookController {
     }
 
     // 방명록 추가 (POST)
+    // @Valid : 컨트롤러에서 유효성 검사 적용, dto 없지만 방명록이니
     @PostMapping("/post")
-    public Guestbook addGuestbookEntry(@RequestBody Guestbook entry) {
+    public Guestbook addGuestbookEntry(@Valid @RequestBody Guestbook entry) {
         return guestbookService.addGuestbookEntry(entry.getContent());
     }
 }
