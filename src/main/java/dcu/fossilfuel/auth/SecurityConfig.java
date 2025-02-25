@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,13 +12,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler; // ✅ 핸들러 주입
+    private final CustomAuthenticationFailureHandler customAuthenticationFailureHandler; // 🔥 커스텀 로그인 실패 핸들러
 
     @Bean
     public WebSecurityCustomizer configure() {
@@ -29,40 +27,49 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable());
-        http.httpBasic(httpBasic -> httpBasic.disable());
-        http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(
-                        "/", "/signup", "/chatbot", "/api/**", "/error", "/login", "/login/**",
-                        "/api/commits/**","/graphql/**"
+        http
+                .csrf(csrf -> csrf.disable())  // CSRF 비활성화
+                .httpBasic(httpBasic -> httpBasic.disable()) // 기본 HTTP 인증 비활성화
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/", "/signup", "/chatbot", "/api/**", "/error", "/login", "/login/**",
+                                "/api/commits/**", "/graphql/**"
+                        ).permitAll()  // 특정 URL은 인증 없이 접근 가능
+                        .anyRequest().authenticated()
+                )
 
-                ).permitAll() // graphql 경로 허용
-                .anyRequest().authenticated()
-        );
-        // ㅁㅏ지막에 수정해야함
+                // ✅ HTTPS 강제 (HSTS 적용)
+                .headers(headers -> headers
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true)
+                                .preload(true)
+                                .maxAgeInSeconds(31536000)  // 1년 (1년 동안 HTTPS 강제)
+                        )
+                        .frameOptions(frame -> frame.sameOrigin())  // iframe 보안 설정 (필요한 경우)
+                )
 
-        // ✅ form Login 사용시, 전부 스프링 시큐리티 위임 => Login controller (x)
-        // ✅ 로그인 페이지 설정
-        http.formLogin(login -> login
-                .loginPage("/login")  // 사용자 정의 로그인 페이지
-                .loginProcessingUrl("/api/auth/login") // 로그인 요청 URL (폼의 action과 일치해야 함)
-                .defaultSuccessUrl("/dashboard", true) // 로그인 성공 후 리디렉션
-                .failureHandler(customAuthenticationFailureHandler) // 🔥 커스텀 핸들러 등록
-                .permitAll()
-        );
+                // ✅ 로그인 설정
+                .formLogin(login -> login
+                        .loginPage("/login")  // 사용자 정의 로그인 페이지
+                        .loginProcessingUrl("/api/auth/login") // 로그인 요청 URL
+                        .defaultSuccessUrl("/dashboard", true) // 로그인 성공 후 리디렉션
+                        .failureHandler(customAuthenticationFailureHandler) // 🔥 커스텀 핸들러 등록
+                        .permitAll()
+                )
 
-        // ✅ 로그아웃 설정
-        http.logout(logout -> logout
-                .logoutUrl("/api/auth/logout")
-                .logoutSuccessUrl("/login?logout=true") // 로그아웃 성공 후 리디렉션
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
-                .permitAll()
-        );
+                // ✅ 로그아웃 설정
+                .logout(logout -> logout
+                        .logoutUrl("/api/auth/logout")
+                        .logoutSuccessUrl("/login?logout=true") // 로그아웃 후 리디렉션
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
+                        .permitAll()
+                )
 
-        http.sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-        );
+                // ✅ 세션 정책 설정
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                );
 
         return http.build();
     }
@@ -72,6 +79,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();

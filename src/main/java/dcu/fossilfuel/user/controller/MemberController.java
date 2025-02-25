@@ -4,6 +4,7 @@ import dcu.fossilfuel.user.controller.dto.*;
 import dcu.fossilfuel.user.service.MailService;
 import dcu.fossilfuel.user.service.MemberService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,7 @@ public class MemberController {
 
     // 이메일 중복 확인
     @PostMapping("/api/check-email")
-    public ResponseEntity<ResponseDto> checkEmailDuplicate(@RequestBody EmailCheckRequest request) {
+    public ResponseEntity<ResponseDto> checkEmailDuplicate(@Valid @RequestBody EmailCheckRequest request) {
         if (memberService.isEmailDuplicate(request.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDto.fail("이미 가입된 이메일입니다."));
         }
@@ -61,14 +62,14 @@ public class MemberController {
 
     // 회원가입
     @PostMapping("/api/members/register")
-    public ResponseEntity<ResponseDto> saveMember(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<ResponseDto> saveMember(@Valid @RequestBody RegisterRequest registerRequest) {
         memberService.saveMember(registerRequest);
         return ResponseEntity.ok(ResponseDto.success("회원가입 성공!", null));
     }
 
     // ID 찾기
     @PostMapping("/api/auth/find-id")
-    public ResponseEntity<ResponseDto> findId(@RequestBody FindIdRequest request) {
+    public ResponseEntity<ResponseDto> findId(@Valid @RequestBody FindIdRequest request) {
         String email = memberService.findEmailByNickname(request.getNickname());
         if (email == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDto.fail("닉네임이 잘못되었거나 회원이 아닙니다."));
@@ -80,7 +81,7 @@ public class MemberController {
 
     // 비밀번호 찾기 - 이메일 확인
     @PostMapping("/api/auth/find-password")
-    public ResponseEntity<ResponseDto> findPassword(@RequestBody EmailCheckRequest request, HttpSession session) throws Exception {
+    public ResponseEntity<ResponseDto> findPassword(@Valid @RequestBody EmailCheckRequest request, HttpSession session) throws Exception {
         if (!memberService.isEmailDuplicate(request.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseDto.fail("존재하지 않는 사용자입니다."));
         }
@@ -107,7 +108,7 @@ public class MemberController {
 
     // 비밀번호 재설정
     @PostMapping("/api/auth/reset-password")
-    public ResponseEntity<ResponseDto> resetPassword(@RequestBody ResetPasswordRequest request, HttpSession session) {
+    public ResponseEntity<ResponseDto> resetPassword(@Valid @RequestBody ResetPasswordRequest request, HttpSession session) {
         Boolean isVerified = (Boolean) session.getAttribute("passwordResetVerified");
         String email = (String) session.getAttribute("resetEmail");
 
