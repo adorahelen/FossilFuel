@@ -20,7 +20,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.h2database:h2'  // H2 데이터베이스 추가
 
    // [보안을 위한 의존성 추가]
     // Logging (SLF4J)
