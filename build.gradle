@@ -23,6 +23,8 @@ repositories {
 
 dependencies {
 
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+
    // implementation 'com.github.spotbugs:spotbugs-annotations:5.0.14' // SpotBugs 어노테이션 추가 : 그래들 버전 문제
 
 

@@ -1,16 +1,33 @@
+<!--<configuration>-->
+
+<!--    &lt;!&ndash; 로그 파일 저장 위치와 형식 설정 &ndash;&gt;-->
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>logs/application.log</file> &lt;!&ndash; logs 디렉토리에 application.log 파일 생성 &ndash;&gt;-->
+<!--        <encoder>-->
+<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{36} - %msg%n</pattern> &lt;!&ndash; 로그 패턴 &ndash;&gt;-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+<!--    &lt;!&ndash; 로그 레벨 설정 &ndash;&gt;-->
+<!--    <root level="info">-->
+<!--        <appender-ref ref="FILE" />-->
+<!--    </root>-->
+
+<!--</configuration>-->
+
+<!--[로그를 로컬 파일에 저장하는 코드가 위, ELK 스택을 위한 전처리 작업을 위한 Logstash 서버로의 기록이 아래 코드]-->
+
 <configuration>
 
-    <!-- 로그 파일 저장 위치와 형식 설정 -->
-    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/application.log</file> <!-- logs 디렉토리에 application.log 파일 생성 -->
-        <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{36} - %msg%n</pattern> <!-- 로그 패턴 -->
-        </encoder>
+    <!-- Logstash로 전송하는 Appender 추가 -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>localhost:6000</destination> <!-- Logstash 서버 주소 -->
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
     <!-- 로그 레벨 설정 -->
     <root level="info">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="LOGSTASH" />
     </root>
 
 </configuration>
