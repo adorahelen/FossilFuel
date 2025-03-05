@@ -1,27 +1,10 @@
-<!--<configuration>-->
-
-<!--    &lt;!&ndash; 로그 파일 저장 위치와 형식 설정 &ndash;&gt;-->
-<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
-<!--        <file>logs/application.log</file> &lt;!&ndash; logs 디렉토리에 application.log 파일 생성 &ndash;&gt;-->
-<!--        <encoder>-->
-<!--            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %-5level - %logger{36} - %msg%n</pattern> &lt;!&ndash; 로그 패턴 &ndash;&gt;-->
-<!--        </encoder>-->
-<!--    </appender>-->
-
-<!--    &lt;!&ndash; 로그 레벨 설정 &ndash;&gt;-->
-<!--    <root level="info">-->
-<!--        <appender-ref ref="FILE" />-->
-<!--    </root>-->
-
-<!--</configuration>-->
-
-<!--[로그를 로컬 파일에 저장하는 코드가 위, ELK 스택을 위한 전처리 작업을 위한 Logstash 서버로의 기록이 아래 코드]-->
-
 <configuration>
 
     <!-- Logstash로 전송하는 Appender 추가 -->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>localhost:6000</destination> <!-- Logstash 서버 주소 -->
+        <destination>127.0.0.1:6000</destination>
+<!--        이게 가능한 이유는 동일한 ec2 안에서 jar 파일과 docker 기반 ELK 이 함께 동작하기에 -->
+<!--           * 이러면 보안그룹은 열지 않아도 되고, 방화벽은 애매함-->
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
