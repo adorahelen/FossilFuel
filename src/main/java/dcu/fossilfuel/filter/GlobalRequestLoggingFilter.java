@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.regex.Pattern;
 
 import java.io.IOException;
 
@@ -15,6 +16,8 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalRequestLoggingFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(GlobalRequestLoggingFilter.class);
+    private static final Pattern SUSPICIOUS_PATTERN = Pattern.compile("(?i)(union|select|drop|--|;|<|>)");
+
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -41,8 +44,7 @@ public class GlobalRequestLoggingFilter implements Filter {
         long requestTime = System.currentTimeMillis();
 
         // 의심스러운 패턴 검사
-        String suspiciousPattern = "(union|select|drop|--|;|<|>)";
-        if (requestURI.matches(suspiciousPattern)) {
+        if (SUSPICIOUS_PATTERN.matcher(requestURI).find()) {
             log.warn("Potential attack attempt from IP: {} - {} {} - Port: {} - Protocol: {} - Time: {}",
                     clientIP, method, requestURI, port, protocol, requestTime);
         }
@@ -54,10 +56,12 @@ public class GlobalRequestLoggingFilter implements Filter {
         }
 
         // 요청 처리 후 응답 코드 기록
+        long startTime = System.currentTimeMillis();
         chain.doFilter(request, response);
+        long responseTime = System.currentTimeMillis() - startTime;
 
-        int statusCode = resp.getStatus(); // 응답 코드 (200, 404, 500 등)
-        log.info("Request from IP: {} - {} {} - User-Agent: {} - Time: {} - Status: {} - Port: {} - Protocol: {}",
-                clientIP, method, requestURI, userAgent, requestTime, statusCode, port, protocol);
+        int statusCode = resp.getStatus();
+        log.info("Request from IP: {} - {} {} - User-Agent: {} - Time: {}ms - Status: {} - Port: {} - Protocol: {}",
+                clientIP, method, requestURI, userAgent, responseTime, statusCode, port, protocol);
     }
 }
