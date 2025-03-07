@@ -1,10 +1,10 @@
 <configuration>
 
-    <!-- 날짜별 Rolling 로그 파일 저장 -->
+    <!-- 웹 서비스 로그 파일 저장 (가독성을 위해 날짜별로) -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/application.log</file>
+        <file>logs/fossilfuel-web.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>logs/fossilfuel-web-%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder>
@@ -12,11 +12,11 @@
         </encoder>
     </appender>
 
-    <!-- JSON 형식으로 로그 저장 (ELK 연계 고려) -->
+    <!-- 보안 및 해킹 탐지 로그 (ELK 연계를 위해 JSON 형식으로) -->
     <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/application.json</file>
+        <file>logs/fossilfuel-security.json</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/application-%d{yyyy-MM-dd}.json</fileNamePattern>
+            <fileNamePattern>logs/fossilfuel-security-%d{yyyy-MM-dd}.json</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
