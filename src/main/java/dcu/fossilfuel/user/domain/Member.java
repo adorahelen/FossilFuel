@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Base64;
 import java.util.Collection;
@@ -41,7 +40,7 @@ public class Member implements UserDetails {
 
     // 프로필 이미지는, 회원가입 시 NULL -> 마이페이지에서 설정하도록 [default]
     @Lob
-    @Column(name = "profile_image", columnDefinition = "LONGBLOB")
+    @Column(name = "profile_image", columnDefinition = "BYTEA")
     private byte[] profileImage;
 
     @Column(name = "profile_url")
