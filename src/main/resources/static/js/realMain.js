@@ -6,7 +6,7 @@
     return;
 }
 
-    fetch(`/graphql/user/${username}`)
+    fetch(`/projects/fossilfuel/graphql/user/${username}`)
     .then(response => response.json())
     .then(data => {
     displayContributions(data);
@@ -45,7 +45,7 @@
 
     const commitDTO = { username: username, commitCount: commitCount };
 
-    fetch('/api/commits/save', {
+    fetch('/projects/fossilfuel/api/commits/save', {
     method: 'POST',
     headers: {
     'Content-Type': 'application/json'
@@ -55,7 +55,7 @@
 }
 
     function updateRanking() {
-    fetch('/api/commits/ranking')
+    fetch('/projects/fossilfuel/api/commits/ranking')
         .then(response => response.json())
         .then(data => {
             const rankList = document.querySelector(".rank-list");
@@ -76,7 +76,7 @@
 
     // [ 로그아웃 ]
     document.getElementById("logout-btn").addEventListener("click", function () {
-        fetch("https://fossilfuel.site/api/auth/logout", {
+        fetch("https://kangminlog.com:2026/projects/fossilfuel/api/auth/logout", {
             method: "POST",
             credentials: "include", // 쿠키 기반 인증 시 필요
             headers: { "Content-Type": "application/json" }

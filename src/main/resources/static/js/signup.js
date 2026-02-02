@@ -7,7 +7,7 @@ document.getElementById('send-code').addEventListener('click', async function() 
     }
 
     try {
-        const response = await fetch('/api/send-verification-code', {
+        const response = await fetch('/projects/fossilfuel/api/send-verification-code', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
@@ -36,7 +36,7 @@ document.getElementById('verify-code').addEventListener('click', async function 
     }
 
     try {
-        const response = await fetch('/api/verify-code', {
+        const response = await fetch('/projects/fossilfuel/api/verify-code', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ code })
@@ -79,7 +79,7 @@ document.getElementById('signup').addEventListener('click', async function() {
 
     try {
         // 이메일 중복 체크 요청
-        const emailCheckResponse = await fetch('/api/check-email', {
+        const emailCheckResponse = await fetch('/projects/fossilfuel/api/check-email', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email })
@@ -93,7 +93,7 @@ document.getElementById('signup').addEventListener('click', async function() {
         }
 
         // 이메일 인증 여부 확인
-        const emailVerifyResponse = await fetch('/api/email-last-verified', {
+        const emailVerifyResponse = await fetch('/projects/fossilfuel/api/email-last-verified', {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -105,7 +105,7 @@ document.getElementById('signup').addEventListener('click', async function() {
             return;
         }
 
-        const response = await fetch('/api/members/register', {
+        const response = await fetch('/projects/fossilfuel/api/members/register', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ nickname, email, password, grade })

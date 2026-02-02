@@ -3,7 +3,7 @@ document.getElementById("findIdForm").addEventListener("submit", function(event)
 
     const nickname = document.getElementById("nickname").value;
 
-    fetch('/api/auth/find-id', {
+    fetch('/projects/fossilfuel/api/auth/find-id', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ nickname })
