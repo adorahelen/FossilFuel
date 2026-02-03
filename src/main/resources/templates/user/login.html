@@ -20,7 +20,7 @@
         <button type="submit">로그인</button>
     </form>
 
-    <div id="error-message" style="color: red;"></div>
+<!--    <div id="error-message" style="color: red;"></div>-->
 
     <!-- 아이디 찾기 & 비밀번호 찾기 버튼 추가 -->
     <div class="find-options">
@@ -30,25 +30,25 @@
 
 
 </div>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        fetch('/api/auth/error-message')  // 세션에서 메시지 가져오기
-            .then(response => response.text())
-            .then(message => {
-                if (message) {
-                    document.getElementById("error-message").textContent = message;
-                }
-            });
-    });
+<!--<script>-->
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+<!--        fetch('/api/auth/error-message')  // 세션에서 메시지 가져오기-->
+<!--            .then(response => response.text())-->
+<!--            .then(message => {-->
+<!--                if (message) {-->
+<!--                    document.getElementById("error-message").textContent = message;-->
+<!--                }-->
+<!--            });-->
+<!--    });-->
 
-    document.getElementById("find-id-button").addEventListener("click", function () {
-        window.location.href = "/login/find-id"; // 아이디 찾기 페이지 이동
-    });
+<!--    document.getElementById("find-id-button").addEventListener("click", function () {-->
+<!--        window.location.href = "/login/find-id"; // 아이디 찾기 페이지 이동-->
+<!--    });-->
 
-    document.getElementById("find-password-button").addEventListener("click", function () {
-        window.location.href = "/login/find-password"; // 비밀번호 찾기 페이지 이동
-    });
+<!--    document.getElementById("find-password-button").addEventListener("click", function () {-->
+<!--        window.location.href = "/login/find-password"; // 비밀번호 찾기 페이지 이동-->
+<!--    });-->
 
-</script>
+<!--</script>-->
 </body>
 </html>
