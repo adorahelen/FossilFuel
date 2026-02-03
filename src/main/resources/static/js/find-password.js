@@ -7,7 +7,7 @@ document.getElementById("sendCode").addEventListener("click", function() {
         return;
     }
 
-    fetch('/projects/fossilfuel/api/auth/find-password', {
+    fetch('/api/auth/find-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -34,7 +34,7 @@ document.getElementById("verifyCode").addEventListener("click", function() {
         return;
     }
 
-    fetch('/projects/fossilfuel/api/auth/verify-password-code', {
+    fetch('/api/auth/verify-password-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code })
@@ -67,7 +67,7 @@ document.getElementById("resetPassword").addEventListener("click", function() {
         return;
     }
 
-    fetch('/projects/fossilfuel/api/auth/reset-password', {
+    fetch('/api/auth/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newPassword })

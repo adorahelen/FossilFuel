@@ -32,7 +32,7 @@
 </div>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        fetch('/projects/fossilfuel/api/auth/error-message')  // 세션에서 메시지 가져오기
+        fetch('/api/auth/error-message')  // 세션에서 메시지 가져오기
             .then(response => response.text())
             .then(message => {
                 if (message) {
